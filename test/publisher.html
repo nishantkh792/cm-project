@@ -1,0 +1,270 @@
+ <!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Publisher Page - Iframe Ad</title>
+</head>
+<body>
+  <h1>Welcome to My Website</h1>
+
+<div id="ad-slot-1" ></div>
+  <iframe 
+      src="http://localhost:5500/ad.html?id=123" 
+      width="300" 
+      height="250" 
+      style="border:1px solid #ccc;"
+      scrolling="no">
+  </iframe>
+
+
+
+</div>
+</body>
+</html>  -->
+
+
+
+<!-- 
+MNET APPROACH - QUEUE IMPLEMENTATION    js response ,render using script tag inside div  -->
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Publisher Page - Script Ad</title>
+</head>
+
+<body>
+  <h1>Welcome to My Website</h1>
+ <div id="mnet-tag-1234567001"></div>
+
+  <div id="mnet-tag-1234567002"></div>
+
+
+  
+    <div id="mnet-tag-1234567003"></div>
+ 
+  <div id="mnet-tag-1234567004"></div>
+ 
+
+  <div id="mnet-tag-1234567005"></div>
+
+
+
+  <div id="mnet-tag-1234567006"></div>
+  
+
+
+  <div id="mnet-tag-1234567007"></div>
+
+
+
+  <div id="mnet-tag-1234567008"></div>
+ 
+
+
+<script>
+window.publisherId=1242;
+ window.myAdConfig = { publisherId: 1242, 
+    AdSlots:[]
+  };
+
+  (function() 
+  { var s = document.createElement("script"); 
+  s.type = "text/javascript"; 
+  s.async = true; s.src = "http://localhost:5501/test/tag.js"; 
+  var node = document.getElementsByTagName("script")[0]; 
+  node.parentNode.insertBefore(s, node); })();
+
+  
+</script>
+
+
+<script type="text/javascript"> 
+window.myAdConfig.AdSlots.push(
+            {id:"mnet-tag-1234567001"},
+            {id:"mnet-tag-1234567002"},
+            {id:"mnet-tag-1234567003"},
+            {id:"mnet-tag-1234567004"});
+</script>
+
+
+
+
+
+
+
+
+<!-- <script>
+(function() {
+
+
+//my script to generate publisher id.
+//hashing publisherId
+ function hashString(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0; // Convert to 32bit integer
+    }
+    return Math.abs(hash);
+  }
+
+//getting publisherId 
+function getPublisherId() {
+    const url = window.location.hostname + window.location.pathname;
+    return 'pub_' + hashString(url);
+  }
+
+//getting all ad-divs assigned to mnet
+function getAdSlots(){
+// --- Auto-detect all divs that match pattern ,getting all mnet ad tags---
+
+  const adDivs = Array.from(document.querySelectorAll('div[id^="mnet-tag-"]'));
+
+  // --- Convert NodeList → adslot objects ---
+const adslots = adDivs.map(div => ({ id: div.id }));
+return  adslots;
+}
+  
+
+//getting all currently visible addivs in userviewport assigned to mnet using rectanglebound
+function getVisibleAdSlots() {
+    const visibleSlots = [];
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const adDivs = Array.from(document.querySelectorAll('div[id^="mnet-tag-"]'));
+
+    adDivs.forEach(div => {
+      const rect = div.getBoundingClientRect();
+      const isVisible =  rect.top < viewportHeight &&   // element’s top is above bottom of screen
+  rect.bottom > 0 &&             // element’s bottom is below top of screen
+  rect.left < viewportWidth &&   // element’s left is before right edge of screen
+  rect.right > 0;  
+
+      if (isVisible) {
+        visibleSlots.push({ id: div.id });
+      }
+    });
+
+    return visibleSlots;
+  }
+
+
+// Update visible ad slots on users scroll / resize using rectanglebound
+function updateVisibleAdSlots() {
+    const visible = getVisibleAdSlots();
+    window.myAdConfig.visibleAdSlots = visible;
+    //console.log("✅ Visible ad slots:", visible.map(s => s.id));
+  }
+
+
+
+
+//using intersection api to get visibleadslots current view
+function getVisibleAdSlotsintersect(callback) {
+  const visibleAdSlots = [];
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const div = entry.target;
+        visibleAdSlots.push({ id: div.id });
+
+        // Call the callback with this visible ad slot immediately
+        if (callback) callback({ id: div.id });
+
+        // Stop observing this div, since we’ve already detected it
+        obs.unobserve(div);
+      }
+    });
+  }, { threshold: 0.1 }); // 10% visibility threshold
+
+  // Observe all ad divs
+  document.querySelectorAll('div[id^="mnet-tag-"]').forEach(div => observer.observe(div));
+
+  // Return array of visible ad slots as they are detected
+  return visibleAdSlots;
+}
+
+
+
+
+
+//updating visibleadslots as we scroll up or down proper intersect api working
+function visibleAdSlots(){
+ const divs = document.querySelectorAll('div[id^="mnet-tag-"]');
+    const visibleDivs = new Set(); // Keep track of currently visible divs
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          visibleDivs.add(entry.target.id);
+          entry.target.classList.add('in-viewport');
+         
+          
+          
+        } else {
+          visibleDivs.delete(entry.target.id);
+          entry.target.classList.remove('in-viewport');
+        }
+      });
+
+      //adding visibleAdslots to myadconfig.
+      window.myAdConfig.visibleAdSlots = [...visibleDivs].map(id => ({ id }));
+
+
+      //my custom event added to PP window letting tag.js know that new visibledivs array it is updated
+      window.dispatchEvent(new CustomEvent('visibleAdSlotsUpdated', {
+      detail: { visibleAdSlots: window.myAdConfig.visibleAdSlots }
+    }));
+
+      // visibleDivs is always up-to-date here
+      console.log('Currently visible divs:', [...visibleDivs]);
+    }, {
+      threshold: 0.1 // trigger when 10% of div is visible
+    });
+
+    divs.forEach(div => observer.observe(div));
+  }
+visibleAdSlots();
+
+
+//adding to window of parent so tag.js can use it.
+  window.publisherId = getPublisherId();
+  console.log("Publisher ID:", window.publisherId);
+
+
+
+
+
+
+
+
+//adding div ids to publisher window
+  window.myAdConfig = { publisherId: getPublisherId(), 
+    AdSlots:getAdSlots()
+  };
+
+  console.log(window.myAdConfig);
+
+console.log(window.renderedDivs)
+
+
+// // Initial visible slots + listeners
+//   updateVisibleAdSlots();
+//   window.addEventListener("scroll", updateVisibleAdSlots);
+//   window.addEventListener("resize", updateVisibleAdSlots);
+  
+})();
+</script> -->
+</body>
+
+
+
+</html>> 
+
+
+
+<!-- html response ,render using iframe tag inside div -->
+
+

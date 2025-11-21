@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visible Divs Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      height: 200px;
+      margin: 20px;
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: background-color 0.3s;
+    }
+    .in-viewport {
+      background-color: lightgreen;
+    }
+    #visible-list {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box" id="div1">Div 1</div>
+  <div class="box" id="div2">Div 2</div>
+  <div class="box" id="div3">Div 3</div>
+  <div class="box" id="div4">Div 4</div>
+  <div class="box" id="div5">Div 5</div>
+  <div class="box" id="div6">Div 6</div>
+  <div class="box" id="div7">Div 7</div>
+  <div class="box" id="div8">Div 8</div>
+  <div class="box" id="div9">Div 9</div>
+  <div class="box" id="div10">Div 10</div>
+
+  <div id="visible-list">Visible: []</div>
+
+  <script>
+    const divs = document.querySelectorAll('.box');
+    const visibleDivs = new Set(); // keep track of currently visible divs
+    const visibleList = document.getElementById('visible-list');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          visibleDivs.add(entry.target.id);
+          entry.target.classList.add('in-viewport');
+        } else {
+          visibleDivs.delete(entry.target.id);
+          entry.target.classList.remove('in-viewport');
+        }
+      });
+      // Update visible divs display
+      visibleList.textContent = `Visible: [${[...visibleDivs].join(', ')}]`;
+    }, {
+      threshold: 1 // trigger when 10% of div is visible
+    });
+
+    divs.forEach(div => observer.observe(div));
+
+    // Optional: update on window resize too
+    window.addEventListener('resize', () => {
+      visibleList.textContent = `Visible: [${[...visibleDivs].join(', ')}]`;
+    });
+  </script>
+
+</body>
+</html>

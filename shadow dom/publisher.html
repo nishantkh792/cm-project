@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Publisher Page - Shadow DOM Ad Demo</title>
+
+  <style>
+    /* Publisher global styles */
+    body {
+      font-family: "Comic Sans MS";
+      background: grey;
+      color: red;
+    }
+
+    /* This would normally affect all <button> tags */
+    button {
+      background: red;
+      color: yellow;
+      font-weight: bold;
+      border-radius: 50px;
+      border: 3px solid black;
+    }
+
+    .my-ad-slot {
+      width: 300px;
+      height: 300px;
+      border: 2px dashed #999;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>News Article</h1>
+  <p>This is the publisher page. Notice global <code>button</code> CSS should NOT affect the ad below.</p>
+
+  <!-- Ad slot -->
+  <div class="my-ad-slot" id="ad-slot-1" style="width:300;height: 300;"></div>
+
+  <script src="tag-shadow.js"></script>
+</body>
+</html>

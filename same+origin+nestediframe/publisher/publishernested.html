@@ -1,0 +1,50 @@
+<!-- nested iframes -->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Publisher Page - Script Ad</title>
+  <script>
+    window.myAdConfig = {
+      AdSlots: []
+    };
+
+    window.loadAdtag = function (adSlotId, size) {
+      if (typeof window.showAdtag === "function") {
+        window.showAdtag(adSlotId, size);
+      } else {
+        window.myAdConfig.AdSlots.push(() => window.showAdtag(adSlotId, size));
+      }
+    };
+
+  </script>
+  <!-- <script src="http://localhost:8080/server/tag.js?pid=1234" async></script> -->
+</head>
+
+<body>
+  <h1>Welcome to My Website</h1>
+  <div id="mnet-tag-1234567001">
+    <iframe src="http://127.0.0.1:5501/same+origin+nestediframe/publisher/iframe.html">
+
+    </iframe>
+
+  </div>
+
+  <div id="mnet-tag-1234567002">
+
+  </div>
+
+  <div id="mnet-tag-1234567003">
+
+  </div>
+
+  <div id="mnet-tag-1234567004">
+
+  </div>
+
+
+</body>
+
+</html>

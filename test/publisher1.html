@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Media.net Multiple Ad Units</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>My Media.net Ads</h1>
+
+  <!-- Ad Slot 1 -->
+  <div id="mnet-tag-1234567001"></div>
+
+  <!-- Ad Slot 2 -->
+  <div id="mnet-tag-1234567002"></div>
+
+  <!-- Ad Slot 3 -->
+  <div id="mnet-tag-1234567003"></div>
+
+  <!-- Media.net main tag -->
+  <script type="text/javascript">
+    window._mNHandle = window._mNHandle || {};
+    window._mNHandle.queue = window._mNHandle.queue || [];
+    medianet_versionId = "3121199"; // Example version ID
+
+    // Load the Media.net script
+    (function() {
+      var s = document.createElement("script");
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "";
+      var node = document.getElementsByTagName("script")[0];
+      node.parentNode.insertBefore(s, node);
+    })();
+  </script>
+
+  <!-- Register multiple ad slots -->
+  <script type="text/javascript">
+    window._mNHandle.queue.push(function() {
+      window._mNDetails.loadTag("1234567001", "300x250", "mnet-tag-1234567001");
+      window._mNDetails.loadTag("1234567002", "728x90", "mnet-tag-1234567002");
+      window._mNDetails.loadTag("1234567003", "160x600", "mnet-tag-1234567003");
+    });
+  </script>
+
+</body>
+</html>

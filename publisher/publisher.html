@@ -1,0 +1,50 @@
+<!-- 
+MNET APPROACH - QUEUE IMPLEMENTATION    js response ,render using script tag inside div  
+
+contract is here
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Iphone 15 pro</title>
+  <script>
+    window.myAdConfig = {
+      AdSlots: []
+    };
+
+    window.loadAdtag = function (adSlotId, size) {
+      if (typeof window.showAdtag === "function") {
+        window.showAdtag(adSlotId, size);
+      } else {
+        window.myAdConfig.AdSlots.push(() => window.showAdtag(adSlotId, size));
+      }
+    };
+
+  </script>
+  <script src="http://localhost:8080/server/tag.js" async></script>
+</head>
+
+<body>
+  <h1>Welcome to My Website</h1>
+  <div id="mnet-tag-1234567001">
+    <script type="text/javascript">
+      window.myAdConfig.AdSlots.push(function () {
+        window.loadAdtag("mnet-tag-1234567001", "200x200");
+      });
+    </script>
+  </div>
+
+  <div id="mnet-tag-1234567002">
+    <script type="text/javascript">
+      window.myAdConfig.AdSlots.push(function () {
+        window.loadAdtag("mnet-tag-1234567002", "200x200");
+      });
+    </script>
+  </div>
+
+
+
+</body>
+
+</html>

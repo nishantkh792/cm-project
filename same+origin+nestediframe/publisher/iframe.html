@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe Content</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+        }
+
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello from the outer Iframe!</h1>
+    <p>This content is being displayed within an outer iframe on another webpage.</p>
+    <iframe src="http://127.0.0.1:5501/same+origin+nestediframe/publisher/inneriframe.html?purl=yo"></iframe>
+</body>
+<script>
+    console.log('from outer iframe', window.location.href);
+
+</script>
+
+</html>
