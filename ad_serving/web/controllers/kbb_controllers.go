@@ -10,7 +10,8 @@ type AdData struct {
 	Keywords []string
 }
 
-func Kbbcontrollers(w http.ResponseWriter, r *http.Request) {
+func Controllers(w http.ResponseWriter, r *http.Request) {
+
 	q := r.URL.Query()
 	publisherURL := q.Get("publisherUrl")
 	tsize := q.Get("tsize")

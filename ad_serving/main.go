@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	routes.Kbbroutes()
+	routes.Routes()
 
 	fmt.Println("Server running on :8080")
 	http.ListenAndServe(":8080", nil)

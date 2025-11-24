@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Kbbroutes() {
+func Routes() {
 	// Serve tag.js
 	fmt.Println("inside routes")
 	http.HandleFunc("/server/tag.js", func(w http.ResponseWriter, r *http.Request) {
@@ -14,5 +14,5 @@ func Kbbroutes() {
 	})
 
 	// Serve ad.html
-	http.HandleFunc("/server/ad.html", controllers.Kbbcontrollers)
+	http.HandleFunc("/server/ad.html", controllers.Controllers)
 }
