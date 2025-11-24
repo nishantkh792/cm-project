@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-func Keywordflow(PublisherURL string, Actno string, Maxno string, Rurl string, Ptitle string, Tsize string) []string {
-	kbb := kbb.NewKBBmanager(PublisherURL, Actno, Maxno, Rurl, Ptitle, Tsize)
+func Keywordflow(kbbinput *kbb.KBBinput) []string {
+	kbb := kbb.NewKBBmanager(kbbinput)
 	keywordlist := kbb.GetKeywordList()
 
 	templateManager := template.NewTemplatemanager()

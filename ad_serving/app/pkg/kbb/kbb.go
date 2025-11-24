@@ -120,6 +120,7 @@ func (kbbinput *KBBinput) GetUrl() (string, error) {
 
 	d, _ := kbbinput.GetDomain()
 
+	fmt.Println("inside geturl", kbbinput)
 	// Update values
 	updateKeys := map[string]string{
 		"actno":  kbbinput.Actno,
@@ -180,13 +181,6 @@ func (kbbinput *KBBinput) GetKeywordList() []string {
 	return keywordlist
 }
 
-func NewKBBmanager(publisherURL string, actno string, maxno string, rurl string, ptitle string, tsize string) *KBBinput {
-	return &KBBinput{
-		PublisherURL: publisherURL,
-		Actno:        actno,
-		Maxno:        maxno,
-		Rurl:         rurl,
-		Ptitle:       ptitle,
-		Tsize:        tsize,
-	}
+func NewKBBmanager(kbbinput *KBBinput) *KBBinput {
+	return kbbinput
 }

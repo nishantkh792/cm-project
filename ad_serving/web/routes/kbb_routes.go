@@ -14,5 +14,9 @@ func Routes() {
 	})
 
 	// Serve ad.html
-	http.HandleFunc("/server/ad.html", controllers.Controllers)
+	http.HandleFunc("/server/ad.html", controllers.KBBControllers)
+
+	//Serve serp.html,take query params
+	http.HandleFunc("/server/serp.html", controllers.YahooControllers)
+
 }
